@@ -12,10 +12,9 @@ const fetchMyIP = function(callback) {
       callback(Error(msg), null);
       return;
     }
-    const data = JSON.parse(body);
-    const ipValue = data.ip;
+    const data = JSON.parse(body).ip;
     
-    callback(null, ipValue);
+    callback(null, data);
   });
 };
 
