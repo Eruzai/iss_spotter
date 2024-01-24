@@ -1,19 +1,21 @@
 const request = require('request');
 
 const fetchMyIP = function(callback) {
-  let errorValue = null;
-  let ipValue = null;
-
   request('https://api.ipify.org?format=json', (error, response, body) => {
     if (error) {
-      errorValue = "❌ Invalid URL"; // If the URL doesn't work, prints a message to console.
-    } else if (response.statusCode !== 200) {
-      errorValue = `❌ Check your URL. Error code: ${response.statusCode}`; // if the URL only partially works, prints an error code
-    } else {
-      const data = JSON.parse(body);
-      ipValue = data.ip;
+      callback(error, null);
+      return;
     }
-    callback(errorValue, ipValue);
+    // if non-200 status, assume server error
+    if (response.statusCode !== 200) {
+      const msg = `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
+      callback(Error(msg), null);
+      return;
+    }
+    const data = JSON.parse(body);
+    const ipValue = data.ip;
+    
+    callback(null, ipValue);
   });
 };
 
