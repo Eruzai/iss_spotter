@@ -18,7 +18,7 @@ const fetchMyIP = function(callback) {
   });
 };
 
-const fetchCoordsByIP = function(ip, callback) {
+const fetchCoordsByIP = function(ip, callback) { // fetches the approximate location for a given IP
   request('http://ipwho.is/' + ip, (error, response, body) => {
     if (error) {
       callback(error, null);
@@ -38,7 +38,7 @@ const fetchCoordsByIP = function(ip, callback) {
   });
 };
 
-const fetchISSFlyOverTimes = function(coords, callback) {
+const fetchISSFlyOverTimes = function(coords, callback) { // uses coordinate data JSON object to fetch ISS flyover times
   request(`https://iss-flyover.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`, (error, response, body) => {
     if (error) {
       callback(error, null);
@@ -58,19 +58,19 @@ const fetchISSFlyOverTimes = function(coords, callback) {
 };
 
 const nextISSTimesForMyLocation = function(callback) { // function calls fetch functions one after the other to output fly over times
-  fetchMyIP((error, ip) => {
+  fetchMyIP((error, ip) => { // fetches your IP!
     if (error) {
       callback(error, null);
       return;
     }
   
-    fetchCoordsByIP(ip, (error, geoLocation) => {
+    fetchCoordsByIP(ip, (error, geoLocation) => { // fetches your location with your IP!
       if (error) {
         callback(error, null);
         return;
       }
         
-      fetchISSFlyOverTimes(geoLocation, (error, flyOverTimes) => {
+      fetchISSFlyOverTimes(geoLocation, (error, flyOverTimes) => { // fetches ISS fly over times for your location!
         if (error) {
           callback(error, null);
           return;
