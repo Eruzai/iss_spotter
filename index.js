@@ -7,15 +7,22 @@
  *   - The IP address as a string (null if error). Example: "162.245.144.188"
  */
 
-const { fetchMyIP } = require('./iss');
+const { fetchMyIP, fetchCoordsByIP } = require('./iss');
 
-fetchMyIP((error, ip) => {
-  if (error) {
-    console.log("It didn't work!" , error);
-    return;
-  }
+// fetchMyIP((error, ip) => {
+//   if (error) {
+//     console.log("It didn't work!" , error);
+//     return;
+//   }
 
-  console.log('It worked! Returned IP:' , ip);
-});
+//   console.log('It worked! Returned IP:' , ip);
+// });
 
-module.exports = { fetchMyIP };
+// fetchCoordsByIP('23.16.38.56', (error, geoLocation) => {
+//   if (error) {
+//     console.log("It didn't work!" , error);
+//     return;
+//   }
+    
+//   console.log('It worked! Returned coords:' , geoLocation);
+// });
