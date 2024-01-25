@@ -14,8 +14,13 @@ const fetchISSFlyOverTimes = function(body) {
   return request(`https://iss-flyover.herokuapp.com/json/?lat=${latitude}&lon=${longitude}`);
 };
 
-module.exports = {
-  fetchMyIP,
-  fetchCoordsByIP,
-  fetchISSFlyOverTimes
+const nextISSTimesForMyLocation = function() {
+  return fetchMyIP()
+    .then(fetchCoordsByIP)
+    .then(fetchISSFlyOverTimes)
+    .then((data) => {
+      return JSON.parse(data).response;
+    });
 };
+
+module.exports = { nextISSTimesForMyLocation };
