@@ -18,27 +18,41 @@ const request = require('request');
 //   });
 // };
 
-const fetchCoordsByIP = function(ip, callback) {
-  request('http://ipwho.is/' + ip, (error, response, body) => {
+// const fetchCoordsByIP = function(ip, callback) {
+//   request('http://ipwho.is/' + ip, (error, response, body) => {
+//     if (error) {
+//       callback(error, null);
+//       return;
+//     }
+
+//     if (JSON.parse(body).success === false) { // checks for failure message and if found sends a message as to what happened
+//       callback(JSON.parse(body).message, null);
+//       return;
+//     }
+
+//     const data = {};
+//     data.latitude = JSON.parse(body).latitude.toString();
+//     data.longitude = JSON.parse(body).longitude.toString();
+    
+//     callback(null, data);
+//   });
+// };
+
+const fetchISSFlyOverTimes = function(coords, callback) {
+  request(`https://iss-flyover.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`, (error, response, body) => {
     if (error) {
       callback(error, null);
       return;
     }
-
-    if (JSON.parse(body).success === false) { // checks for failure message and if found sends a message as to what happened
-      callback(JSON.parse(body).message, null);
-      return;
-    }
-
-    const data = {};
-    data.latitude = JSON.parse(body).latitude.toString();
-    data.longitude = JSON.parse(body).longitude.toString();
     
+    const data = JSON.parse(body).response;
+
     callback(null, data);
   });
 };
 
 module.exports = {
   //fetchMyIP,
-  //fetchCoordsByIP
+  //fetchCoordsByIP,
+  fetchISSFlyOverTimes
 };
